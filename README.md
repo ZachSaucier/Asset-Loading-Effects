@@ -32,6 +32,7 @@ Video example:
 
 	<div class="ale" data-ale-type="diagonal" data-ale-src="/vid/vidFile.mp4" data-ale-src-backup="/vid/backupVidFile.mpeg" data-ale-is-vid=true>
 
+Please feel free to make and add your own effects and remove effects you're not using in your project! I'd love to hear suggestions for other loading effects. Understanding [how it's made](http://zachsaucier.com/blog/blog/2015/05/26/definition-vs-description/) will help you if you're seeking to make your own effects.
 
 ___
 
