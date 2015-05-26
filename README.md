@@ -3,7 +3,7 @@ Asset loading effects
 
 This is a library to show the loading progress of given assets and reveal them using various animations. Please give feedback, report bugs, and propose new loader ideas!
 
-[Read about how it was made](http://zachsaucier.com/blog/blog/2015/05/26/definition-vs-description/)
+[Read about how it was made](http://zachsaucier.com/blog/blog/2015/05/26/asset-loading-effects/)
 
 ![Asset loading effects](http://zachsaucier.com/ale.jpg)
 
