@@ -23,7 +23,7 @@ function loadAsset(elem) {
 
     // Change the video location for Safari if need be
     if(isVid 
-       && isMac 
+       && (isMac || isIE)
        && elem.getAttribute("data-ale-src-backup") != undefined
        && !/chrome/.test(UA.toLowerCase()))
         assetLoc = elem.getAttribute("data-ale-src-backup");
