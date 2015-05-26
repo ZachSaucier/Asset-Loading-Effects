@@ -5,6 +5,8 @@ This is a library to show the loading progress of given assets and reveal them u
 
 [Read about how it was made](http://zachsaucier.com/blog/blog/2015/05/26/definition-vs-description/)
 
+![Asset loading effects](http://zachsaucier.com/ale.jpg)
+
 #### Effect demos:
 - [Circular](http://zachsaucier.github.io/Asset-Loading-Effects/)
 - [Sqare](http://zachsaucier.github.io/Asset-Loading-Effects/index2.html)
