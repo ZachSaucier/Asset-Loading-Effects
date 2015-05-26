@@ -3,16 +3,16 @@ Asset loading effects
 
 This is a library to show the loading progress of given assets and reveal them using various animations. Please give feedback, report bugs, and propose new loader ideas!
 
-[Read about how it was made]()
+[Read about how it was made](http://zachsaucier.com/blog/blog/2015/05/26/definition-vs-description/)
 
 #### Effect demos:
-- [Circular]()
-- [Sqare]()
-- [Linear with shadow]()
-- [Linear]()
-- [Diagonal]()
-- [Fill]()
-- [Corner]()
+- [Circular](http://zachsaucier.github.io/Asset-Loading-Effects/)
+- [Sqare](http://zachsaucier.github.io/Asset-Loading-Effects/index2.html)
+- [Linear with shadow](http://zachsaucier.github.io/Asset-Loading-Effects/index3.html)
+- [Linear](http://zachsaucier.github.io/Asset-Loading-Effects/index4.html)
+- [Diagonal](http://zachsaucier.github.io/Asset-Loading-Effects/index5.html)
+- [Fill](http://zachsaucier.github.io/Asset-Loading-Effects/index6.html)
+- [Corner](http://zachsaucier.github.io/Asset-Loading-Effects/index7.html)
 
 ## How to use:
 
@@ -24,11 +24,11 @@ This is a library to show the loading progress of given assets and reveal them u
 
 Image example:
 
-    &lt;div class="ale" data-ale-type="diagonal" data-ale-src="/img/url.jpg"&gt;
+    <div class="ale" data-ale-type="diagonal" data-ale-src="/img/url.jpg">
 
 Video example:
 
-	&lt;div class="ale" data-ale-type="diagonal" data-ale-src="/vid/vidFile.mp4" data-ale-src-backup="/vid/backupVidFile.mpeg" data-ale-is-vid=true&gt;
+	<div class="ale" data-ale-type="diagonal" data-ale-src="/vid/vidFile.mp4" data-ale-src-backup="/vid/backupVidFile.mpeg" data-ale-is-vid=true>
 
 
 ___
