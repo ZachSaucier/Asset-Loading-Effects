@@ -1,0 +1,335 @@
+/* Also have to change the JS transition variable to match */
+/* Prefixer mixins */
+body {
+  margin: 0;
+  background-color: #F7F6E2;
+}
+
+.ale {
+  /* This sizes each asset element so that the width is 1.5 times bigger than the height. 
+     If changed, the positioning some sub elements will need to be changed as 
+     well. */
+  height: 0;
+  padding-bottom: 66%;
+  /* This part is for the effect itself */
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  /* Add some background color to differentiate between each */
+  /* Add a default fade in for every effect */
+  /* Style video elements a little differently */
+  /* Make sure any SVG or ::before elements are above ::after elements */
+  /* Change a few things for the square loader */
+  /* The diagonal loader */
+  /* Setup the basics for the other line loaders */
+  /* Setup the completed state for the other line loaders */
+  /* The "flat" loader which gives a "background" to the loader */
+  /* Style the fullsize line loader */
+  /* Styling the corner ring loader */
+}
+.ale:nth-of-type(odd) {
+  color: #fdfcf6;
+  background-color: currentColor;
+}
+.ale:nth-of-type(even) {
+  color: white;
+  background-color: currentColor;
+}
+.ale::after {
+  z-index: 0;
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+}
+.ale.complete::after {
+  opacity: 0;
+  transition: 1s;
+}
+.ale[data-ale-is-vid=true] {
+  padding-bottom: 56.25%;
+}
+.ale > video {
+  position: absolute;
+  /* Make it be as wide as possible */
+  width: 100%;
+  /* Center the video by making it full height */
+  height: 100%;
+}
+.ale > svg, .ale::before {
+  z-index: 1;
+}
+.ale[data-ale-type="ring"], .ale[data-ale-type="square"] {
+  /* Use clip path to hide the part of the background so we can animate it in 
+     later */
+  /* FF uses an SVG with JS animation because this is unsupported */
+  -webkit-clip-path: circle(8.6% at center);
+  clip-path: circle(8.6% at center);
+  /* Hide the image before it's supposed to show */
+  background-size: 0;
+  /* This is the inner circle */
+  /* Remove the default fade if it's not IE*/
+  /* Position our loader */
+  /* For the completed state of the ring */
+}
+.ale[data-ale-type="ring"]::before, .ale[data-ale-type="square"]::before {
+  content: '';
+  background-color: inherit;
+  border-radius: 50%;
+  /* If the size of the parent is changed, this will need to be changed as 
+     well */
+  height: 18.1%;
+  width: 12%;
+  position: absolute;
+  top: 41%;
+  left: 44%;
+}
+.ale[data-ale-type="ring"]:not(.isIE)::after, .ale[data-ale-type="square"]:not(.isIE)::after {
+  display: none;
+}
+.ale[data-ale-type="ring"] > svg, .ale[data-ale-type="square"] > svg {
+  /* If the size of the parent is changed, this will need to be changed as 
+     well */
+  height: 22.5%;
+  width: 15%;
+  position: absolute;
+  top: 38.75%;
+  /* 100% - height / 2 */
+  left: 42.5%;
+  /* 100% - height * (2 * 1/3) because the height is 2/3 of 
+     the width in this case (OR 100% - width / 2) */
+  /* Set the stroke of the path to our secondary color */
+}
+.ale[data-ale-type="ring"] > svg path, .ale[data-ale-type="square"] > svg path {
+  stroke: #969696;
+}
+.ale[data-ale-type="ring"].complete, .ale[data-ale-type="square"].complete {
+  /* Remove the clip path using a transition */
+  -webkit-clip-path: circle(100% at center);
+  clip-path: circle(100% at center);
+  transition: 1s 0.5s ease-in-out;
+  /* Make the background visible since it's done loading */
+  background-size: cover;
+  /* Scale down the inner circle */
+  /* Make IE's fallback fade go after the ring fade */
+  /* Fade out the SVG ring */
+}
+.ale[data-ale-type="ring"].complete::before, .ale[data-ale-type="square"].complete::before {
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  transition: 0.5s 0.5s ease-in-out;
+}
+.ale[data-ale-type="ring"].complete::after, .ale[data-ale-type="square"].complete::after {
+  transition: 0.5s 0.5s;
+}
+.ale[data-ale-type="ring"].complete > svg, .ale[data-ale-type="square"].complete > svg {
+  transition: opacity 0.5s ease-in;
+  opacity: 0;
+}
+.ale[data-ale-type="square"] {
+  -webkit-clip-path: inset(38.5% 42.5% 38.5% 42.5%);
+  clip-path: inset(38.5% 42.5% 38.5% 42.5%);
+  /* Remove the border radius from before */
+}
+.ale[data-ale-type="square"]::before {
+  border-radius: 0;
+}
+.ale[data-ale-type="square"].complete {
+  -webkit-clip-path: inset(0%);
+  clip-path: inset(0%);
+}
+.ale[data-ale-type="diagonal"] {
+  /* Position the SVG loader diagonally */
+  /* Create each half to be separated in the animation */
+  /* Position the left side */
+  /* Position the right side */
+  /* Set the complete state for each part */
+}
+.ale[data-ale-type="diagonal"] > svg {
+  position: absolute;
+  top: 50%;
+  width: 125%;
+  -webkit-transform: translate(-10%, -50%) rotate(-33.333deg);
+  -ms-transform: translate(-10%, -50%) rotate(-33.333deg);
+  transform: translate(-10%, -50%) rotate(-33.333deg);
+}
+.ale[data-ale-type="diagonal"]::after, .ale[data-ale-type="diagonal"]::before {
+  content: "";
+  width: 125%;
+  height: 100%;
+  position: absolute;
+  background: currentColor;
+}
+.ale[data-ale-type="diagonal"]::before {
+  -webkit-transform-origin: bottom left;
+  -ms-transform-origin: bottom left;
+  transform-origin: bottom left;
+  -webkit-transform: rotate(-33.333deg);
+  -ms-transform: rotate(-33.333deg);
+  transform: rotate(-33.333deg);
+}
+.ale[data-ale-type="diagonal"]::after {
+  right: 0;
+  -webkit-transform-origin: top right;
+  -ms-transform-origin: top right;
+  transform-origin: top right;
+  -webkit-transform: rotate(-33.333deg);
+  -ms-transform: rotate(-33.333deg);
+  transform: rotate(-33.333deg);
+}
+.ale[data-ale-type="diagonal"].complete {
+  /* Fade out the SVG */
+  /* Slide out both sides */
+}
+.ale[data-ale-type="diagonal"].complete > svg {
+  transition: 0.25s;
+  opacity: 0;
+}
+.ale[data-ale-type="diagonal"].complete::before {
+  transition: 1s;
+  -webkit-transform: rotate(-33.333deg) translateY(-100%);
+  -ms-transform: rotate(-33.333deg) translateY(-100%);
+  transform: rotate(-33.333deg) translateY(-100%);
+}
+.ale[data-ale-type="diagonal"].complete::after {
+  opacity: 1;
+  transition: 1s;
+  -webkit-transform: rotate(-33.333deg) translateY(100%);
+  -ms-transform: rotate(-33.333deg) translateY(100%);
+  transform: rotate(-33.333deg) translateY(100%);
+}
+.ale[data-ale-type="line-top"] > svg, .ale[data-ale-type="line-flat-top"] > svg, .ale[data-ale-type="fill-left"] > svg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  /* Color the line */
+}
+.ale[data-ale-type="line-top"] > svg path, .ale[data-ale-type="line-flat-top"] > svg path, .ale[data-ale-type="fill-left"] > svg path {
+  stroke: #ED4E6E;
+}
+.ale[data-ale-type="line-top"] {
+  /* For the completed state */
+}
+.ale[data-ale-type="line-top"].complete > svg, .ale[data-ale-type="line-top"].complete::before {
+  transition: 0.5s;
+  -webkit-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  transform: translateY(-100%);
+  /* Transition when loading is complete */
+}
+.ale[data-ale-type="line-top"].complete > svg path, .ale[data-ale-type="line-top"].complete::before path {
+  transition: 0.5s;
+}
+.ale[data-ale-type="line-flat-top"] {
+  /* Set the height of the lines */
+  /* Style the "background" of the loader */
+  /* Set the complete state */
+}
+.ale[data-ale-type="line-flat-top"] > svg {
+  height: 7%;
+}
+.ale[data-ale-type="line-flat-top"]::after {
+  top: 7%;
+}
+.ale[data-ale-type="line-flat-top"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 7%;
+  width: 100%;
+  background: #969696;
+}
+.ale[data-ale-type="line-flat-top"].complete {
+  /* Fade out the SVG and shadow */
+  /* Move the white down instead of fading it out */
+}
+.ale[data-ale-type="line-flat-top"].complete > svg {
+  opacity: 0;
+}
+.ale[data-ale-type="line-flat-top"].complete::before {
+  transition: 0.5s;
+  opacity: 0;
+}
+.ale[data-ale-type="line-flat-top"].complete::after {
+  opacity: 1;
+  -webkit-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  transform: translateY(100%);
+  transition: 0.5s 0.5s;
+}
+.ale[data-ale-type="fill-left"] {
+  /* Make the background color be removed immediately */
+  /* Fade out the loader */
+}
+.ale[data-ale-type="fill-left"] > svg {
+  height: 100%;
+  /* Make it partially see through to keep context of what's beneath it */
+  opacity: .9;
+  /* Color the fill */
+}
+.ale[data-ale-type="fill-left"] > svg path {
+  stroke: #969696;
+}
+.ale[data-ale-type="fill-left"].complete::after {
+  transition: 0;
+}
+.ale[data-ale-type="fill-left"].complete > svg {
+  transition: 0.5s;
+  opacity: 0;
+}
+.ale[data-ale-type="corner-ring"] {
+  /* Position the "triangle" */
+  /* Put the loader inside of the "triangle" */
+  /* Slide both components out when the image is loaded */
+}
+.ale[data-ale-type="corner-ring"]::before {
+  content: "";
+  width: 300px;
+  height: 150px;
+  background: #ED4E6E;
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-transform-origin: top center;
+  -ms-transform-origin: top center;
+  transform-origin: top center;
+  -webkit-transform: translateX(50%) rotate(45deg);
+  -ms-transform: translateX(50%) rotate(45deg);
+  transform: translateX(50%) rotate(45deg);
+}
+.ale[data-ale-type="corner-ring"] > svg {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 100px;
+  height: 100px;
+}
+.ale[data-ale-type="corner-ring"].complete > svg {
+  -webkit-transform: translate(110%, -110%);
+  -ms-transform: translate(110%, -110%);
+  transform: translate(110%, -110%);
+  transition: 0.5s;
+}
+.ale[data-ale-type="corner-ring"].complete::before {
+  transition: 0.5s;
+  -webkit-transform: translate(125%) rotate(45deg);
+  -ms-transform: translate(125%) rotate(45deg);
+  transform: translate(125%) rotate(45deg);
+}
+
+/* Put styling behind the elements that use clipping */
+.clip-container:nth-of-type(even) {
+  color: #fdfcf6;
+  background-color: currentColor;
+}
+.clip-container:nth-of-type(odd) {
+  color: white;
+  background-color: currentColor;
+}
+.clip-container .ale:nth-of-type(odd),
+.clip-container .ale:nth-of-type(even) {
+  color: inherit;
+}

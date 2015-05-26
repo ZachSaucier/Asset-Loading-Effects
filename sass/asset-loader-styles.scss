@@ -1,0 +1,371 @@
+$background:#F7F6E2;
+$primary:#ED4E6E;
+$secondary:#969696;
+$transDur: 0.5s; /* Also have to change the JS transition variable to match */
+
+/* Prefixer mixins */
+@mixin prefix($property, $value, $vendors: webkit moz ms o) {
+      @if $vendors {
+        @each $vendor in $vendors {
+          #{"-" + $vendor + "-" + $property}: #{$value};
+        }
+      }
+      #{$property}: #{$value};
+}
+@mixin transform($value) {
+    @include prefix(transform, $value, webkit ms);
+}
+@mixin transformOrigin($value) {
+    @include prefix(transform-origin, $value, webkit ms);
+}
+
+body { margin:0; background-color: $background; }
+
+.ale {
+  /* This sizes each asset element so that the width is 1.5 times bigger than the height. 
+     If changed, the positioning some sub elements will need to be changed as 
+     well. */
+  height:0;
+  padding-bottom:66%;
+  
+  /* This part is for the effect itself */
+  background-size:cover;
+  position:relative;
+  overflow:hidden;
+  
+  /* Add some background color to differentiate between each */
+  &:nth-of-type(odd)  { 
+    color:lighten($background, 5%);
+    background-color:currentColor; 
+  }
+  &:nth-of-type(even) { 
+    color:lighten($background, 10%);
+    background-color:currentColor; 
+  }
+  
+  /* Add a default fade in for every effect */
+  &::after {
+    z-index:0;
+    content:'';
+    position:absolute;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:inherit;
+  }
+  &.complete::after {
+      opacity:0;
+      transition:$transDur * 2;
+  }
+
+  /* Style video elements a little differently */
+  &[data-ale-is-vid=true] {
+    padding-bottom:56.25%;
+  }
+  > video  {
+    position:absolute;
+    /* Make it be as wide as possible */
+    width:100%;
+    /* Center the video by making it full height */
+    height:100%;
+  }
+  
+  /* Make sure any SVG or ::before elements are above ::after elements */
+  > svg,
+  &::before {
+    z-index:1;
+  }
+  
+  &[data-ale-type="ring"],
+  &[data-ale-type="square"] {
+    /* Use clip path to hide the part of the background so we can animate it in 
+       later */
+    /* FF uses an SVG with JS animation because this is unsupported */
+    -webkit-clip-path:circle(8.6% at center);
+    clip-path:circle(8.6% at center);
+    
+    /* Hide the image before it's supposed to show */
+    background-size:0;
+    
+    /* This is the inner circle */
+    &::before {
+      content:'';
+      background-color:inherit;
+      border-radius:50%;
+      /* If the size of the parent is changed, this will need to be changed as 
+         well */
+      height: 18.1%;
+      width: 12%;
+      position: absolute;
+      top: 41%;
+      left: 44%;
+    }
+    
+    /* Remove the default fade if it's not IE*/
+    &:not(.isIE)::after { 
+      display:none; 
+    } 
+    
+    /* Position our loader */
+    > svg {
+      /* If the size of the parent is changed, this will need to be changed as 
+         well */                    
+      height: 22.5%;
+      width: 15%;
+      position: absolute;
+      top: 38.75%; /* 100% - height / 2 */
+      left: 42.5%; /* 100% - height * (2 * 1/3) because the height is 2/3 of 
+                      the width in this case (OR 100% - width / 2) */
+      
+      /* Set the stroke of the path to our secondary color */
+      path { 
+        stroke:$secondary;
+      }
+    }
+
+    /* For the completed state of the ring */
+    &.complete {
+      /* Remove the clip path using a transition */
+      -webkit-clip-path:circle(100% at center);
+      clip-path:circle(100% at center);
+      transition: 2*$transDur $transDur ease-in-out;
+      
+      /* Make the background visible since it's done loading */
+      background-size:cover;
+      
+      /* Scale down the inner circle */
+      &::before { 
+        @include transform(scale(0));
+        transition: $transDur $transDur ease-in-out;
+      }
+      
+      /* Make IE's fallback fade go after the ring fade */
+      &::after { 
+          transition: $transDur $transDur;
+      }
+      
+      /* Fade out the SVG ring */
+      > svg { 
+        transition:opacity $transDur ease-in;
+        opacity:0; 
+      }
+    }
+  }
+  
+  /* Change a few things for the square loader */
+  &[data-ale-type="square"] {
+    -webkit-clip-path:inset(38.5% 42.5% 38.5% 42.5%);
+    clip-path:inset(38.5% 42.5% 38.5% 42.5%);
+    
+    /* Remove the border radius from before */
+    &::before {
+      border-radius:0;
+    }
+      
+    &.complete {
+      -webkit-clip-path:inset(0%);
+      clip-path:inset(0%);
+    }
+  }
+  
+  /* The diagonal loader */
+  &[data-ale-type="diagonal"] {
+    /* Position the SVG loader diagonally */
+    > svg {
+      position:absolute;
+      top:50%;
+      width:125%;
+      @include transform(translate(-10%, -50%) rotate(-33.333deg));
+    }
+    /* Create each half to be separated in the animation */
+    &::after,
+    &::before {
+      content:"";
+      width:125%;
+      height:100%;
+      position:absolute;
+      background:currentColor;
+    }
+    /* Position the left side */
+    &::before {
+      @include transformOrigin(bottom left);
+     @include transform(rotate(-33.333deg));
+    }
+    /* Position the right side */
+    &::after {
+      right:0;
+      @include transformOrigin(top right);
+      @include transform(rotate(-33.333deg));
+    }
+    
+    /* Set the complete state for each part */
+    &.complete {
+      /* Fade out the SVG */
+      > svg { 
+        transition:$transDur / 2; 
+        opacity:0;
+      }
+      
+      /* Slide out both sides */
+      &::before {
+        transition:$transDur * 2;
+        @include transform(rotate(-33.333deg) translateY(-100%));
+      }
+      &::after {
+        opacity:1;
+        transition:$transDur * 2;
+        @include transform(rotate(-33.333deg) translateY(100%));
+      }
+    }
+  }
+  
+  /* Setup the basics for the other line loaders */
+  &[data-ale-type="line-top"],
+  &[data-ale-type="line-flat-top"],
+  &[data-ale-type="fill-left"] {
+    > svg {
+      position:absolute;
+      top:0;
+      width:100%;
+      
+      /* Color the line */
+      path { 
+        stroke:$primary; 
+      }
+    }
+  }
+  
+  /* Setup the completed state for the other line loaders */
+  &[data-ale-type="line-top"] {
+    /* For the completed state */
+    &.complete > svg,
+    &.complete::before {
+      transition:$transDur;
+      @include transform(translateY(-100%));
+      
+      /* Transition when loading is complete */
+      path { 
+        transition:$transDur; 
+      }
+    }
+  }
+  
+  /* The "flat" loader which gives a "background" to the loader */
+  &[data-ale-type="line-flat-top"] {
+    /* Set the height of the lines */
+    $height:7%;
+    
+    > svg { 
+      height:$height; 
+    }
+    
+    &::after { 
+      top:$height; 
+    }
+    
+    /* Style the "background" of the loader */
+    &::before {
+      content:"";
+      position:absolute;
+      top:0;
+      height:$height;
+      width:100%;
+      background:$secondary;
+    }
+
+    /* Set the complete state */
+    &.complete {
+      /* Fade out the SVG and shadow */
+      > svg { 
+        opacity:0; 
+      }
+      &::before {
+        transition: $transDur;
+        opacity:0;
+      }
+      
+      /* Move the white down instead of fading it out */
+      &::after {
+        opacity:1;
+        @include transform(translateY(100%));
+        transition: $transDur $transDur;
+      }
+    }
+  }
+  
+  /* Style the fullsize line loader */
+  &[data-ale-type="fill-left"] {
+    > svg { 
+      height:100%;
+      /* Make it partially see through to keep context of what's beneath it */
+      opacity:.9;
+      
+      /* Color the fill */
+      path { 
+        stroke:$secondary; 
+      }
+    }
+    
+    /* Make the background color be removed immediately */
+    &.complete::after { 
+      transition:0; 
+    }
+    /* Fade out the loader */
+    &.complete > svg {
+      transition:$transDur;
+      opacity:0;
+    }
+  }
+  
+  /* Styling the corner ring loader */
+  &[data-ale-type="corner-ring"] { 
+    /* Position the "triangle" */
+    &::before {
+      content:"";
+      width:300px;
+      height:150px;
+      background:$primary;
+      position:absolute;
+      top:0;
+      right:0;
+      @include transformOrigin(top center);
+      @include transform(translateX(50%) rotate(45deg));
+    }
+    
+    /* Put the loader inside of the "triangle" */
+    > svg { 
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:100px;
+      height:100px;
+    }
+    
+    /* Slide both components out when the image is loaded */
+    &.complete > svg { 
+      @include transform(translate(110%, -110%));
+      transition: $transDur; 
+    }
+    &.complete::before {
+      transition:$transDur;
+      @include transform(translate(125%) rotate(45deg));      
+    }
+  }
+}
+
+/* Put styling behind the elements that use clipping */
+.clip-container {
+  &:nth-of-type(even)  { 
+    color:lighten($background, 5%);
+    background-color:currentColor; 
+  }
+  &:nth-of-type(odd) { 
+    color:lighten($background, 10%);;
+    background-color:currentColor; 
+  }
+  
+  .ale:nth-of-type(odd), 
+  .ale:nth-of-type(even) {
+    color:inherit;
+  }
+}

@@ -1,0 +1,23 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+	font-size:18px;
+	font-family: 'Open Sans', sans-serif;
+}
+header {
+	text-align:center;
+}
+a {
+	color:black;
+}
+a:hover {
+	color:rgb(70,70,70);
+}
+
+
+.container {
+	padding:0 20px;
+}
+.library-links {
+	margin-bottom:0.5em;
+}
