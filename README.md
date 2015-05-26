@@ -10,7 +10,7 @@ This is a library to show the loading progress of given assets and reveal them u
 #### Effect demos:
 - [Circular](http://zachsaucier.github.io/Asset-Loading-Effects/)
 - [Sqare](http://zachsaucier.github.io/Asset-Loading-Effects/index2.html)
-- [Linear with shadow](http://zachsaucier.github.io/Asset-Loading-Effects/index3.html)
+- [Linear with shadow](http://zachsaucier.github.io/Asset-Loading-Effects/index3.html) (Demos a video being loaded)
 - [Linear](http://zachsaucier.github.io/Asset-Loading-Effects/index4.html)
 - [Diagonal](http://zachsaucier.github.io/Asset-Loading-Effects/index5.html)
 - [Fill](http://zachsaucier.github.io/Asset-Loading-Effects/index6.html)
